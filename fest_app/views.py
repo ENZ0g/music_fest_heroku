@@ -32,7 +32,7 @@ class MainPage(View):
 
     def get(self, request, *args, **kwargs):
         template = loader.get_template('main_page.html')
-        scenes = Scene.objects.all()
+        scenes = Scene.objects.all().order_by('id')
         artists_wait = NewArtist.objects.filter(status='under_consideration').count()
         artists_accepted = NewArtist.objects.filter(status='accepted')
         artists_accepted_number = artists_accepted.count()
@@ -250,7 +250,7 @@ def voting_done(request):
 
             else:
                 template = loader.get_template('artist_success.html')
-                context = {'scenes': Scene.objects.all(),
+                context = {'scenes': Scene.objects.all().order_by('id'),
                            'artist': artist,
                            'scene_error': True}
                 return HttpResponse(template.render(context, request))
