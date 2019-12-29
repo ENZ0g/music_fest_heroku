@@ -23,7 +23,7 @@
 |artist7|qazxswed  |
 |artist8|qazxswed  |
 
-Или создайте свои. Админка доступна [здесь]().
+Или создайте свои. Админка доступна [здесь](https://music-fest-deaf-tracts.herokuapp.com/admin).
 
 | Login | Password |
 :------:|:--------:|
