@@ -170,7 +170,7 @@ def status_page(request):
 @permission_required('fest_app.can_vote', login_url='/denied')
 def scene_info(request):
     template = loader.get_template('scene_info.html')
-    data = {'scenes': Scene.objects.all()}
+    data = {'scenes': Scene.objects.all().order_by('id')}
     return HttpResponse(template.render(data, request))
 
 
@@ -188,7 +188,7 @@ def voting_decision(request):
 
     if decision == 'accepted':
         template = loader.get_template('artist_success.html')
-        context = {'scenes': Scene.objects.all(),
+        context = {'scenes': Scene.objects.all().order_by('id'),
                    'artist': artist}
         return HttpResponse(template.render(context, request))
 
