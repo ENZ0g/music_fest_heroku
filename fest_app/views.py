@@ -81,7 +81,7 @@ def artist_form_done(request):
 @permission_required('fest_app.can_vote', login_url='/denied')
 def voting_page(request):
     template = loader.get_template('voting_page.html')
-    context = {'artists': NewArtist.objects.filter(status='under_consideration')}
+    context = {'artists': NewArtist.objects.filter(status='under_consideration').order_by('id')}
     if request.method == 'GET':
         return HttpResponse(template.render(context, request))
 

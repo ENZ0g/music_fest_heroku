@@ -84,4 +84,4 @@ class Voice(models.Model):
                                on_delete=models.CASCADE)
     artist = models.ForeignKey(NewArtist,
                                on_delete=models.CASCADE)
-    voice = models.CharField(max_length=13)
+    voice = models.CharField(max_length=14)
