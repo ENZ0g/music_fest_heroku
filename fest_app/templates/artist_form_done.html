@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Заявка на рассмотрении{% endblock %}
+
+{% block header_extra_btn %}
+
+    {% if perms.fest_app.see_status %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/my_status"
+       role="button">Статус заявки</a>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container marketing main">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+
+                <h2 class="featurette-heading"
+                    style="margin-top: 70px;">Все заполнено! <span class="text-muted">Теперь дело за нами.</span></h2>
+                <p class="lead">Мы будем планровть, согласовывать, договариваться, назначать, приглашать,
+                организовывать, прервёмся на сон и снова в бой, создавать крутой фест!</p>
+                <p class="lead">Дождись, наше решение ты получишь на почту.</p>
+
+                <p class="lead">В любой момент заходи сюда и проверяй статус заявки.
+                Теперь тебе доступна такая кнопка! Сверху справа!</p>
+
+                <a class="btn btn-outline-success participant-btn"
+               href="/"
+               role="button">Вернуться на главную страницу</a>
+            </div>
+
+            <div class="col-md-5">
+                <img src="{% static 'well_done.jpg' %}" >
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

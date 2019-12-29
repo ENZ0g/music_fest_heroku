@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load humanread %}
+
+{% block title %}{{ object.user.first_name }}: подробности{% endblock %}
+
+{% block header_extra_btn %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/voting"
+       role="button">Заявки музыкантов</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/accepted"
+       role="button">Одобренные заявки</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/scene_info"
+       role="button">Загруженность сцен</a>
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container main">
+
+        <div class="row">
+
+            <div class="col">
+
+                <h2 class="featurette-heading" style="margin-top: 50px;">{{ object.alias }}</h2>
+                <p class="lead">{{ object.status|humanread }}</p>
+
+                <table class="table table-striped table-sm">
+                    <tr>
+                        <td width="25%">Имя</td>
+                        <td>{{ object.user.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Контакты</td>
+                        <td>{{ object.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Формат выступления</td>
+                        <td>{{ object.format|humanread }}</td>
+                    </tr>
+
+
+                    {% if object.status == 'accepted' %}
+
+                        <tr>
+                            <td width="25%">Сцена</td>
+                            <td>{{ object.scene.name|humanread }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">День</td>
+                            <td>{{ object.day }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Время</td>
+                            <td>{{ object.time_slot|humanread }}</td>
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+                            <td width="25%">Ожидаемая сцена</td>
+                            <td>{{ object.scene.name|humanread }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Ожидаемый день</td>
+                            <td>{{ object.day }}</td>
+                        </tr>
+
+                    {% endif %}
+
+
+                    <tr>
+                        <td width="25%">Дополнительная информация</td>
+                        <td>{{ object.info }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

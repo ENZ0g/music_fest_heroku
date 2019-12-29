@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Нет доступа{% endblock %}
+
+{% block header_extra_btn %}
+
+    {% if perms.fest_app.can_create or user.is_anonymous %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/new_artist"
+       role="button">Подать заявку на участие</a>
+
+    {% elif perms.fest_app.can_vote %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/voting"
+       role="button">Заявки музыкантов</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/accepted"
+       role="button">Одобренные заявки</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/scene"
+       role="button">Загруженность сцен</a>
+
+    {% elif perms.fest_app.see_status %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/my_status"
+       role="button">Статус заявки</a>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container marketing main">
+
+        <div class="row featurette">
+            <div class="col-7">
+
+                <h2 class="featurette-heading">Упс!
+                    <span class="text-muted">Похоже, у Вас нет доступа к этой странице.</span></h2>
+                <p class="lead">Не расстраивайтесь! Там ничего интересного...</p>
+
+            </div>
+
+            <div class="col-5">
+                <img src="{% static 'denied.png' %}" >
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

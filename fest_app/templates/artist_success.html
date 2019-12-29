@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% load humanread %}
+{% load subtract %}
+
+{% block title %}{{ artist.user.first_name }}: подтверждение{% endblock %}
+
+{% block header_extra_btn %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/voting"
+       role="button">Заявки музыкантов</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/accepted"
+       role="button">Одобренные заявки</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/scene_info"
+       role="button">Загруженность сцен</a>
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container marketing main">
+
+        <div class="row">
+
+            <div class="col">
+
+                <h2 class="featurette-heading" style="margin-top: 0">{{ artist.alias }}</h2>
+                <p class="lead">{{ artist.status|humanread }}</p>
+
+                <table class="table table-striped table-sm">
+                    <tr>
+                        <td width="25%">Имя</td>
+                        <td>{{ artist.user.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Контакты</td>
+                        <td>{{ artist.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Формат выступления</td>
+                        <td>{{ artist.format|humanread }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Ожидаемая сцена</td>
+                        <td>{{ artist.scene.name|humanread }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Ожидаемый день</td>
+                        <td>{{ artist.day }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Дополнительная информация</td>
+                        <td>{{ artist.info }}</td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </div>
+
+        {% if scene_error %}
+
+            <div class="success-box">
+
+        {% else %}
+
+            <div class="error-box">
+
+        {% endif %}
+
+            <p class="lead" style="margin: 0px 0 15px 40px;">Информация по свободным местам на сценах:</p>
+
+            <div class="row justify-content-center">
+
+            {% for scene in scenes %}
+
+                <div class="col-lg-4">
+
+                    <p class="lead" style="font-weight: bold;">{{ scene.name|humanread }}</p>
+
+                    <table style="margin: 0 auto;">
+                        <caption style="caption-side: top;">1 день</caption>
+                        <thead>
+                            <tr>
+                                <th class="table-row-width">День</th>
+                                <th class="table-row-width">Вечер</th>
+                                <th>Поздний вечер</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="scene-load-1">{{ scene.first_day_noon_plan|subtract:scene.first_day_noon_fact }}</td>
+                                <td class="scene-load-2">{{ scene.first_day_evening_plan|subtract:scene.first_day_evening_fact }}</td>
+                                <td class="scene-load-3">{{ scene.first_day_night_plan|subtract:scene.first_day_night_fact }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table style="margin: 0 auto;">
+                        <caption style="caption-side: top;">2 день</caption>
+                            <tr>
+                                <th class="table-row-width">День</th>
+                                <th class="table-row-width">Вечер</th>
+                                <th>Поздний вечер</th>
+                            </tr>
+                            <tr>
+                                <td class="scene-load-1">{{ scene.second_day_noon_plan|subtract:scene.second_day_noon_fact }}</td>
+                                <td class="scene-load-2">{{ scene.second_day_evening_plan|subtract:scene.second_day_evening_fact }}</td>
+                                <td class="scene-load-3">{{ scene.second_day_night_plan|subtract:scene.second_day_night_fact }}</td>
+                            </tr>
+                    </table>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+            <div class="row">
+
+                <div class="col text-center">
+
+                    <p class="lead" style="margin: 20px 0 15px 40px;">Уточните день, время, сцену и нажмите "Принять заявку"</p>
+
+                    {% if scene_error %}
+
+                        <p class="error-text">На выбранное время мест нет!</p>
+
+                    {% endif %}
+
+                    <form action="/voting/done/"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <input type="hidden" name="artist_id" value="{{ artist.id }}"/>
+
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            {% if artist.day == 1 %}
+
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="day" value="1" autocomplete="off" checked>Первый день
+                                </label>
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="day" value="2" autocomplete="off">Второй день
+                                </label>
+
+                            {% elif artist.day == 2 %}
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="day" value="1" autocomplete="off">Первый день
+                                </label>
+
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="day" value="2" autocomplete="off" checked>Второй день
+                                </label>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="time" value="noon" autocomplete="off" checked>День
+                            </label>
+
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="time" value="evening" autocomplete="off">Вечер
+                            </label>
+
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="time" value="night" autocomplete="off">Поздний вечер
+                            </label>
+
+                        </div>
+
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            {% if artist.scene.name == 'red' %}
+
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="scene" value="red" autocomplete="off" checked>Красная
+                                </label>
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="scene" value="blue" autocomplete="off">Синяя
+                                </label>
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="scene" value="green" autocomplete="off">Арбузик
+                                </label>
+
+                            {% elif artist.scene.name == 'blue' %}
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="scene" value="red" autocomplete="off">Красная
+                                </label>
+
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="scene" value="blue" autocomplete="off" checked>Синяя
+                                </label>
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="scene" value="green" autocomplete="off">Арбузик
+                                </label>
+
+                            {% elif artist.scene.name == 'green' %}
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="scene" value="red" autocomplete="off">Красная
+                                </label>
+
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="scene" value="blue" autocomplete="off">Синяя
+                                </label>
+
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="scene" value="green" autocomplete="off" checked>Арбузик
+                                </label>
+
+                            {% endif %}
+
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Принять заявку</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

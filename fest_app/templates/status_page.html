@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load humanread %}
+{% load static %}
+
+{% block title %}Статус заявки{% endblock %}
+
+{% block main %}
+
+    <div class="container marketing main">
+
+        <div class="row featurette">
+            <div class="col-7">
+
+                <h2 class="featurette-heading">Тем временем,
+                    <span class="text-muted">статус заявки:</span></h2>
+                <p class="lead">{{ artist.status|humanread }}</p>
+
+                {% if artist.status == 'accepted' %}
+
+                    <p>Проверяйте Вашу почту! Там все подробности.</p>
+                    <p class="lead">Если кратко, {{ artist.day }} день, {{ artist.time_slot|humanread }},
+                        {{ artist.scene.name|humanread }}.</p>
+
+                {% elif artist.status == 'denied' %}
+
+                    <p>Не расстраивайся! Лучшая месть – огромный успех.</p>
+
+                {% endif %}
+
+            </div>
+
+            <div class="col-5">
+                <img src="{% static img %}" >
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Заявка на участие{% endblock %}
+
+{% block main %}
+
+    <div class="container main">
+
+        <p class="lead">Подать заявку просто! Мы ждем от тебя заполненную форму.</p>
+        <p class="lead">Если твои треки можно найти в интернете, укажи где их искать в разделе
+            "о себе". Мы хотим услышать тебя как можно раньше!</p>
+
+        <form class="form-group" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="user" value="{{ user.id }}" />
+            <input type="submit" value="Отправить" class="btn btn-outline-primary">
+        </form>
+    </div>
+
+    <hr class="featurette-divider">
+
+{% endblock %}

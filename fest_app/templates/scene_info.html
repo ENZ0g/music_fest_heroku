@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load humanread %}
+{% load subtract %}
+{% load static %}
+
+{% block title %}Загруженность сцен{% endblock %}
+
+{% block header_extra_btn %}
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/voting"
+       role="button">Заявки музыкантов</a>
+
+    <a class="btn btn-outline-success participant-btn"
+       href="/accepted"
+       role="button">Одобренные заявки</a>
+
+    <a class="btn btn-success participant-btn"
+       href="/scene_info"
+       role="button">Загруженность сцен</a>
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container marketing main">
+
+        <div class="row justify-content-center">
+
+            {% for scene in scenes %}
+
+                <div class="col-lg-4">
+                    <img src="{% static scene.name|add:'.jpg' %}"
+                         class="rounded-circle"
+                         width="140px"
+                         height="140px">
+
+                    <h2>{{ scene.name|humanread }}</h2>
+                    <p>{{ scene.info }}</p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="row justify-content-center">
+
+            {% for scene in scenes %}
+
+                <div class="col-lg-4">
+
+                    <p class="lead">Свободно мест:</p>
+
+                    <table style="margin: 0 auto;">
+                        <caption style="caption-side: top;">1 день</caption>
+                        <thead>
+                            <tr>
+                                <th class="table-row-width">День</th>
+                                <th class="table-row-width">Вечер</th>
+                                <th>Поздний вечер</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="scene-load-1">{{ scene.first_day_noon_plan|subtract:scene.first_day_noon_fact }}</td>
+                                <td class="scene-load-2">{{ scene.first_day_evening_plan|subtract:scene.first_day_evening_fact }}</td>
+                                <td class="scene-load-3">{{ scene.first_day_night_plan|subtract:scene.first_day_night_fact }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table style="margin: 0 auto;">
+                        <caption style="caption-side: top;">2 день</caption>
+                            <tr>
+                                <th class="table-row-width">День</th>
+                                <th class="table-row-width">Вечер</th>
+                                <th>Поздний вечер</th>
+                            </tr>
+                            <tr>
+                                <td class="scene-load-1">{{ scene.second_day_noon_plan|subtract:scene.second_day_noon_fact }}</td>
+                                <td class="scene-load-2">{{ scene.second_day_evening_plan|subtract:scene.second_day_evening_fact }}</td>
+                                <td class="scene-load-3">{{ scene.second_day_night_plan|subtract:scene.second_day_night_fact }}</td>
+                            </tr>
+                    </table>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
