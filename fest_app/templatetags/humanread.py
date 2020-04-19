@@ -23,6 +23,7 @@ def humanread(value):
         'accepted': 'Участие подтверждено',
         'denied': 'Заяка отклонена',
         'day': 'День',
+        'noon': 'День',
         'evening': 'Вечер',
         'night': 'Поздний вечер'
     }
