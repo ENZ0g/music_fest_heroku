@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-<!-- {% load humanread %} -->
+{% load humanread %}
 {% load static %}
 
 {% block title %}Статус заявки{% endblock %}
@@ -13,16 +13,13 @@
 
                 <h2 class="featurette-heading">Тем временем,
                     <span class="text-muted">статус заявки:</span></h2>
-<!--                 <p class="lead">{{ artist.status|humanread }}</p> -->
-                    <p class="lead">{{ artist.status }}</p>
+                <p class="lead">{{ artist.status|humanread }}</p>
                 
                 {% if artist.status == 'accepted' %}
 
                     <p>Проверяйте Вашу почту! Там все подробности.</p>
-<!--                     <p class="lead">Если кратко, {{ artist.day }} день, {{ artist.time_slot|humanread }},
-                        {{ artist.scene.name|humanread }}.</p> -->
-                        <p class="lead">Если кратко, {{ artist.day }} день, {{ artist.time_slot }},
-                        {{ artist.scene.name }}.</p>
+                    <p class="lead">Если кратко, {{ artist.day }} день, {{ artist.time_slot|humanread }},
+                        {{ artist.scene.name|humanread }}.</p>
 
                 {% elif artist.status == 'denied' %}
 
