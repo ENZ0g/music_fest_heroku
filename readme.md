@@ -25,7 +25,7 @@
 |artist7|qazxswed  |
 |artist8|qazxswed  |
 
-Или создайте свои. Админка доступна [здесь](https://music-fest-deaf-tracts.herokuapp.com/admin).
+Или создайте свои. Сделать пользователя цензором можно добавив его в группу Censors. Админка доступна [здесь](https://music-fest-deaf-tracts.herokuapp.com/admin).
 
 | Login | Password |
 :------:|:--------:|
