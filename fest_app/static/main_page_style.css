@@ -19,6 +19,11 @@ body {
 .img-gradient {
 	position: relative;
 }
+
+.img-gradient img {
+	width: 100%;
+}
+
 .img-gradient:after {
 	content: "";
 	display: block;
